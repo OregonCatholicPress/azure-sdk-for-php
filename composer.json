@@ -1,12 +1,24 @@
 {
-    "name": "microsoft/windowsazure",
-    "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
-    "keywords": [ "php", "azure", "sdk" ],
+    "name": "oregoncatholicpress/azure-php-sdk",
+    "description": "This is OCP's fork of the Azure project that provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
+    "keywords": ["php", "azure", "sdk"],
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Azure PHP SDK",
-            "email": "azurephpsdk@microsoft.com"
+            "name": "Michael Bunker",
+            "email": "michaelb@ocp.org"
+        },
+        {
+            "name": "Damon Zwolinski",
+            "email": "damonz@ocp.org"
+        },
+        {
+            "name": "Rich Vigorito",
+            "email": "richv@ocp.org"
+        },
+        {
+            "name": "Ed Shabanian",
+            "email": "eds@ocp.org"
         }
     ],
     "require": {
