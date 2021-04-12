@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -55,7 +65,6 @@ class HttpClientTest extends TestCase
     {
         // Test
         $channel = new HttpClient();
-        $headers = $channel->getHeaders();
 
         // Assert
         $this->assertTrue(isset($channel));
@@ -272,8 +281,8 @@ class HttpClientTest extends TestCase
         $url = new Url('http://example.com/');
         $channel->setExpectedStatusCode('200');
         $channel->setBody('This is body');
-        $channel->setMethod('PUT');
-        $this->setExpectedException(get_class(new ServiceException('405')));
+        $channel->setMethod('DELETE');
+        $this->expectException(get_class(new ServiceException('405')));
 
         // Test
         $channel->send([], $url);
@@ -299,7 +308,7 @@ class HttpClientTest extends TestCase
         // Assert
         $this->assertArrayHasKey($expectedHeader, $channel->getHeaders());
         $this->assertTrue(isset($response));
-        $this->assertContains($expectedResponseSubstring, $response);
+        $this->assertStringContainsString($expectedResponseSubstring, $response);
     }
 
     /**
@@ -326,8 +335,8 @@ class HttpClientTest extends TestCase
         $this->assertArrayHasKey($expectedHeader1, $channel->getHeaders());
         $this->assertArrayHasKey($expectedHeader2, $channel->getHeaders());
         $this->assertTrue(isset($response));
-        $this->assertContains($expectedResponseSubstring1, $response);
-        $this->assertContains($expectedResponseSubstring2, $response);
+        $this->assertStringContainsString($expectedResponseSubstring1, $response);
+        $this->assertStringContainsString($expectedResponseSubstring2, $response);
     }
 
     /**
@@ -339,7 +348,7 @@ class HttpClientTest extends TestCase
         $channel = new HttpClient();
         $url = new Url('http://example.com/');
         $channel->setExpectedStatusCode('201');
-        $this->setExpectedException(get_class(new ServiceException('200')));
+        $this->expectException(get_class(new ServiceException('200')));
 
         // Test
         $channel->send([], $url);
@@ -488,7 +497,7 @@ class HttpClientTest extends TestCase
     public function testThrowIfError()
     {
         // Setup
-        $this->setExpectedException(get_class(new ServiceException('200')));
+        $this->expectException(get_class(new ServiceException('200')));
 
         HttpClient::throwIfError(200, null, null, [10]);
     }

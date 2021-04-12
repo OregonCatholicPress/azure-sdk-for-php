@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
 /**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +120,8 @@ class MediaServicesLicenseTemplateSerializerTest extends TestCase
     {
         // Setup
         $template = '<PlayReadyLicenseResponseTemplate xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/PlayReadyTemplate/v1"><LicenseTemplates><PlayReadyLicenseTemplate><PlayRight /></PlayReadyLicenseTemplate></LicenseTemplates></PlayReadyLicenseResponseTemplate>';
-        $this->setExpectedException('RuntimeException', "The PlayReadyLicenseTemplate must contains an 'ContentKey' element");
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage("The PlayReadyLicenseTemplate must contains an 'ContentKey' element");
 
         // Test
         MediaServicesLicenseTemplateSerializer::deserialize($template);
@@ -122,7 +134,8 @@ class MediaServicesLicenseTemplateSerializerTest extends TestCase
     {
         // Setup
         $template = '<PlayReadyLicenseResponseTemplate xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/PlayReadyTemplate/v1"><LicenseTemplates><PlayReadyLicenseTemplate><ContentKey i:type="ContentEncryptionKeyFromHeader" /></PlayReadyLicenseTemplate></LicenseTemplates></PlayReadyLicenseResponseTemplate>';
-        $this->setExpectedException('RuntimeException', "The PlayReadyLicenseTemplate must contains an 'PlayRight' element");
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage("The PlayReadyLicenseTemplate must contains an 'PlayRight' element");
 
         // Test
         MediaServicesLicenseTemplateSerializer::deserialize($template);
@@ -135,7 +148,8 @@ class MediaServicesLicenseTemplateSerializerTest extends TestCase
     {
         // Setup
         $template = '<PlayReadyLicenseResponseTemplate xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/PlayReadyTemplate/v1"><LicenseTemplates></LicenseTemplates></PlayReadyLicenseResponseTemplate>';
-        $this->setExpectedException('RuntimeException', ErrorMessages::AT_LEAST_ONE_LICENSE_TEMPLATE_REQUIRED);
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage(ErrorMessages::AT_LEAST_ONE_LICENSE_TEMPLATE_REQUIRED);
 
         // Test
         MediaServicesLicenseTemplateSerializer::deserialize($template);
@@ -154,7 +168,7 @@ class MediaServicesLicenseTemplateSerializerTest extends TestCase
         $template->setLicenseTemplates([$licenseTemplate]);
 
         $licenseTemplate->setLicenseType(PlayReadyLicenseType::PERSISTENT);
-        $licenseTemplate->setBeginDate(new \DateTime('now'));
+        $licenseTemplate->setBeginDate(new \DateTime('30-01-2021 00:00:00'));
         $licenseTemplate->setRelativeExpirationDate(new \DateInterval('PT6H'));
         $licenseTemplate->setContentKey(new ContentEncryptionKeyFromKeyIdentifier('test custom id'));
 

@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -48,7 +58,7 @@ class ServiceBusIntegrationTest extends IntegrationTestBase
     private $RECEIVE_AND_DELETE_5_SECONDS;
     private $PEEK_LOCK_5_SECONDS;
 
-    public function setUp()
+    public function setup(): void
     {
         parent::setUp();
         $this->RECEIVE_AND_DELETE_5_SECONDS = new ReceiveMessageOptions();
@@ -59,15 +69,6 @@ class ServiceBusIntegrationTest extends IntegrationTestBase
         $this->PEEK_LOCK_5_SECONDS->setPeekLock();
         $this->PEEK_LOCK_5_SECONDS->setTimeout(5);
     }
-
-//    public function testCreateService() {
-//        // reinitialize configuration from known state
-//        $config = createConfiguration();
-//
-//        // applied as default configuration
-//        Configuration->setInstance($config);
-//        $service = ServiceBusService->create();
-//    }
 
     /**
      * @covers \WindowsAzure\ServiceBus\ServiceBusRestProxy::getQueue

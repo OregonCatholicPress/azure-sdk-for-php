@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -516,8 +526,8 @@ class UtilitiesTest extends TestCase
         // Assert
         $this->assertNotNull($actual1);
         $this->assertNotNull($actual2);
-        $this->assertInternalType('string', $actual1);
-        $this->assertInternalType('string', $actual2);
+        $this->assertIsString($actual1);
+        $this->assertIsString($actual2);
         $this->assertNotEquals($actual1, $actual2);
     }
 
@@ -643,7 +653,7 @@ class UtilitiesTest extends TestCase
         $data = 'Test data more than 16 bytes';
         $key = '12345';
         $efectiveInitializationVector = Utilities::generateCryptoKey(8);
-        $this->setExpectedException(get_class(new \InvalidArgumentException('')));
+        $this->expectException(get_class(new \InvalidArgumentException('')));
 
         $initializationVector = str_pad($efectiveInitializationVector, 16, chr(255));
 
@@ -661,7 +671,7 @@ class UtilitiesTest extends TestCase
         $data = 'Test data more than 16 bytes';
         $key = Utilities::generateCryptoKey(32);
         $initializationVector = '1234';
-        $this->setExpectedException(get_class(new \InvalidArgumentException('')));
+        $this->expectException(get_class(new \InvalidArgumentException('')));
 
         // Test
         $actual = Utilities::ctrCrypt($data, $key, $initializationVector);

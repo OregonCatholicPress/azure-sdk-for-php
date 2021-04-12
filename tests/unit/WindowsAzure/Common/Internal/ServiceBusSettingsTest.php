@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,9 +35,9 @@
 
 namespace Tests\unit\WindowsAzure\Common\Internal;
 
+use Tests\framework\TestResources;
 use WindowsAzure\Common\Internal\ServiceBusSettings;
 use WindowsAzure\Common\Internal\Resources;
-use WindowsAzure\Common\Internal\Filters\WrapFilter;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,7 +55,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ServiceBusSettingsTest extends TestCase
 {
-    public function setUp()
+    public function setup(): void
     {
         $property = new \ReflectionProperty('WindowsAzure\Common\Internal\ServiceBusSettings', 'isInitialized');
         $property->setAccessible(true);
@@ -68,12 +78,8 @@ class ServiceBusSettingsTest extends TestCase
     public function testCreateFromConnectionStringWithServiceBusAutomaticCase()
     {
         // Setup
-        $namespace = 'mynamespace';
-        $expectedServiceBusEndpoint = "https://$namespace.servicebus.windows.net";
-        $expectedWrapName = 'myname';
-        $expectedWrapPassword = 'mypassword';
-        $expectedWrapEndpointUri = "https://$namespace-sb.accesscontrol.windows.net/WRAPv0.9";
-        $connectionString = "Endpoint=$expectedServiceBusEndpoint;SharedSecretIssuer=$expectedWrapName;SharedSecretValue=$expectedWrapPassword";
+        $expectedServiceBusEndpoint = TestResources::getServiceBusEndpoint();
+        $connectionString = TestResources::getServiceBusConnectionString();
 
         // Test
         $actual = ServiceBusSettings::createFromConnectionString($connectionString);
@@ -102,7 +108,7 @@ class ServiceBusSettingsTest extends TestCase
         $connectionString = 'SharedSecretIssuer=name;SharedSecretValue=password';
         $expectedMsg = sprintf(Resources::MISSING_CONNECTION_STRING_SETTINGS, $connectionString);
 
-        $this->setExpectedException('\RuntimeException', $expectedMsg);
+        $this->expectException('\RuntimeException', $expectedMsg);
 
         // Test
         ServiceBusSettings::createFromConnectionString($connectionString);
@@ -131,7 +137,7 @@ class ServiceBusSettingsTest extends TestCase
             $invalidKey,
             implode("\n", ['Endpoint', 'SharedSecretIssuer', 'SharedSecretValue'])
         );
-        $this->setExpectedException('\RuntimeException', $expectedMsg);
+        $this->expectException('\RuntimeException', $expectedMsg);
 
         // Test
         ServiceBusSettings::createFromConnectionString($connectionString);
@@ -182,49 +188,15 @@ class ServiceBusSettingsTest extends TestCase
      * @covers \WindowsAzure\Common\Internal\ServiceSettings::parseAndValidateKeys
      * @covers \WindowsAzure\Common\Internal\ServiceSettings::noMatch
      */
-    public function testCreateFromConnectionStringWithCaseInvesitive()
+    public function testCreateFromConnectionStringWithCaseInsensitive()
     {
         // Setup
-        $namepspace = 'mynamespace';
-        $expectedServiceBusEndpoint = "https://$namepspace.servicebus.windows.net";
-        $expectedWrapName = 'myname';
-        $expectedWrapPassword = 'mypassword';
-        $expectedWrapEndpointUri = "https://$namepspace-sb.accesscontrol.windows.net/WRAPv0.9";
-        $connectionString = "eNdPoinT=$expectedServiceBusEndpoint;sHarEdsecRetiSsuer=$expectedWrapName;shArEdsecrEtvAluE=$expectedWrapPassword";
+        $expectedServiceBusEndpoint = TestResources::getServiceBusEndpoint();
+        $connectionString = TestResources::getServiceBusConnectionString();
+        $caseConnectionString = str_replace("SharedAccessKey", "SHAREDaCcEsSkey", $connectionString);
 
         // Test
-        $actual = ServiceBusSettings::createFromConnectionString($connectionString);
-
-        // Assert
-        $this->assertInstanceOf('WindowsAzure\Common\Internal\IServiceFilter', $actual->getFilter());
-        $this->assertEquals($expectedServiceBusEndpoint, $actual->getServiceBusEndpointUri());
-    }
-
-    /**
-     * @covers \WindowsAzure\Common\Internal\ServiceBusSettings::createFromConnectionString
-     * @covers \WindowsAzure\Common\Internal\ServiceBusSettings::init
-     * @covers \WindowsAzure\Common\Internal\ServiceBusSettings::__construct
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::getValidator
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::optional
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::allRequired
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::setting
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::settingWithFunc
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::matchedSpecification
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::parseAndValidateKeys
-     * @covers \WindowsAzure\Common\Internal\ServiceSettings::noMatch
-     */
-    public function testCreateFromConnectionStringWithWrapEndpoint()
-    {
-        // Setup
-        $namespace = 'mynamespace';
-        $expectedServiceBusEndpoint = "https://$namespace.servicebus.windows.net";
-        $expectedWrapName = 'myname';
-        $expectedWrapPassword = 'mypassword';
-        $expectedWrapEndpointUri = 'https://mysb-sb.accesscontrol.chinacloudapi.cn/';
-        $connectionString = "Endpoint=$expectedServiceBusEndpoint;StsEndpoint=$expectedWrapEndpointUri;SharedSecretIssuer=$expectedWrapName;SharedSecretValue=$expectedWrapPassword";
-
-        // Test
-        $actual = ServiceBusSettings::createFromConnectionString($connectionString);
+        $actual = ServiceBusSettings::createFromConnectionString($caseConnectionString);
 
         // Assert
         $this->assertInstanceOf('WindowsAzure\Common\Internal\IServiceFilter', $actual->getFilter());

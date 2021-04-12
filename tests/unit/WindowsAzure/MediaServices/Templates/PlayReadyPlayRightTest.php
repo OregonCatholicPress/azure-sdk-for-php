@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
 /**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -217,7 +228,8 @@ class PlayReadyPlayRightTest extends TestCase
         // Setup
         $entity = new PlayReadyPlayRight();
         $payload = 105;
-        $this->setExpectedException('InvalidArgumentException', ErrorMessages::UNCOMPRESSED_DIGITAL_VIDEO_OPL_VALUE_ERROR);
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage(ErrorMessages::UNCOMPRESSED_DIGITAL_VIDEO_OPL_VALUE_ERROR);
 
         // Test
         $entity->setUncompressedDigitalVideoOpl($payload);
@@ -249,7 +261,8 @@ class PlayReadyPlayRightTest extends TestCase
         // Setup
         $entity = new PlayReadyPlayRight();
         $payload = 405;
-        $this->setExpectedException('InvalidArgumentException', ErrorMessages::COMPRESSED_DIGITAL_VIDEO_OPL_VALUE_ERROR);
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage(ErrorMessages::COMPRESSED_DIGITAL_VIDEO_OPL_VALUE_ERROR);
 
         // Test
         $entity->setCompressedDigitalVideoOpl($payload);
@@ -281,7 +294,8 @@ class PlayReadyPlayRightTest extends TestCase
         // Setup
         $entity = new PlayReadyPlayRight();
         $payload = 105;
-        $this->setExpectedException('InvalidArgumentException', ErrorMessages::ANALOG_VIDEO_OPL_VALUE_ERROR);
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage(ErrorMessages::ANALOG_VIDEO_OPL_VALUE_ERROR);
 
         // Test
         $entity->setAnalogVideoOpl($payload);
@@ -313,7 +327,8 @@ class PlayReadyPlayRightTest extends TestCase
         // Setup
         $entity = new PlayReadyPlayRight();
         $payload = 105;
-        $this->setExpectedException('InvalidArgumentException', ErrorMessages::COMPRESSED_DIGITAL_AUDIO_OPL_VALUE_ERROR);
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage(ErrorMessages::COMPRESSED_DIGITAL_AUDIO_OPL_VALUE_ERROR);
 
         // Test
         $entity->setCompressedDigitalAudioOpl($payload);
@@ -345,7 +360,8 @@ class PlayReadyPlayRightTest extends TestCase
         // Setup
         $entity = new PlayReadyPlayRight();
         $payload = 105;
-        $this->setExpectedException('InvalidArgumentException', ErrorMessages::UNCOMPRESSED_DIGITAL_AUDIO_OPL_VALUE_ERROR);
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage(ErrorMessages::UNCOMPRESSED_DIGITAL_AUDIO_OPL_VALUE_ERROR);
 
         // Test
         $entity->setUncompressedDigitalAudioOpl($payload);

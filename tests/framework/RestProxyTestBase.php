@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,7 +35,6 @@
 
 namespace Tests\framework;
 
-
 use WindowsAzure\Common\Internal\Logger;
 use WindowsAzure\Common\Internal\Serialization\XmlSerializer;
 use WindowsAzure\Common\Internal\Utilities;
@@ -45,7 +54,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @link      https://github.com/windowsazure/azure-sdk-for-php
  */
-class RestProxyTestBase extends TestCase
+abstract class RestProxyTestBase extends TestCase
 {
     protected $restProxy;
     protected $xmlSerializer;
@@ -64,8 +73,9 @@ class RestProxyTestBase extends TestCase
             Code '$code'\n";
     }
 
-    public function __construct()
+    public function setUp(): void
     {
+        parent::setUp();
         $this->xmlSerializer = new XmlSerializer();
         $this->builder = new ServicesBuilder();
         Logger::setLogFile('C:\log.txt');
@@ -82,16 +92,11 @@ class RestProxyTestBase extends TestCase
         $this->restProxy = $serviceRestProxy;
     }
 
-    protected function onNotSuccessfulTest(\Exception $e)
+    protected function onNotSuccessfulTest(\throwable $t): void
     {
-        parent::onNotSuccessfulTest($e);
+        parent::onNotSuccessfulTest($t);
 
         $this->tearDown();
-        throw $e;
-    }
-
-    public function testDummy()
-    {
-        // dummy test to get rid of warning "No tests found in class 'Tests\Framework\RestProxyTestBase' "
+        throw $t;
     }
 }
