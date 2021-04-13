@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -88,6 +98,40 @@ class SubscriptionDescription
      * @var int
      */
     private $_messageCount;
+
+    /**
+     * The count of the active messages.
+     *
+     * @var int
+     */
+    private $_activeMessageCount;
+
+    /**
+     * The count of the dead letter messages.
+     *
+     * @var int
+     */
+    private $_deadLetterMessageCount;
+    /**
+     * The count of the scheduled messages.
+     *
+     * @var int
+     */
+    private $_scheduledMessageCount;
+
+    /**
+     * The count of the Transfered messages.
+     *
+     * @var int
+     */
+    private $_transferMessageCount;
+
+    /**
+     * The count of the TransferDeadLetterMessageCount messages.
+     *
+     * @var int
+     */
+    private $_transferDeadLetterMessageCount;
 
     /**
      * The count of the delivery.
@@ -186,6 +230,44 @@ class SubscriptionDescription
             $subscriptionDescription->setMessageCount(
                 (string) $subscriptionDescriptionArray['MessageCount']
             );
+        }
+
+        if (array_key_exists('CountDetails', $subscriptionDescriptionArray)) {
+            $active             = $subscriptionDescriptionArray['CountDetails']->xpath('d3p1:ActiveMessageCount');
+            $deadLetter         = $subscriptionDescriptionArray['CountDetails']->xpath('d3p1:DeadLetterMessageCount');
+            $scheduled          = $subscriptionDescriptionArray['CountDetails']->xpath('d3p1:ScheduledMessageCount');
+            $transfer           = $subscriptionDescriptionArray['CountDetails']->xpath('d3p1:TransferMessageCount');
+            $transferDeadLetter = $subscriptionDescriptionArray['CountDetails']->xpath('d3p1:TransferDeadLetterMessageCount');
+
+            if (count($active)) {
+                $subscriptionDescription->setActiveMessageCount(
+                    (string) current($active)
+                );
+            }
+
+            if (count($deadLetter)) {
+                $subscriptionDescription->setDeadLetterMessageCount(
+                    (string) current($deadLetter)
+                );
+            }
+
+            if (count($scheduled)) {
+                $subscriptionDescription->setScheduledMessageCount(
+                    (string) current($scheduled)
+                );
+            }
+
+            if (count($transfer)) {
+                $subscriptionDescription->setTransferMessageCount(
+                    (string) current($transfer)
+                );
+            }
+
+            if (count($transferDeadLetter)) {
+                $subscriptionDescription->setTransferDeadLetterMessageCount(
+                    (string) current($transferDeadLetter)
+                );
+            }
         }
 
         if (array_key_exists('MaxDeliveryCount', $subscriptionDescriptionArray)) {
@@ -344,6 +426,56 @@ class SubscriptionDescription
     }
 
     /**
+     * Gets the count of the active messages.
+     *
+     * @return int
+     */
+    public function getActiveMessageCount()
+    {
+        return $this->_activeMessageCount;
+    }
+
+    /**
+     * Gets the count of the dead letter messages.
+     *
+     * @return int
+     */
+    public function getDeadLetterMessageCount()
+    {
+        return $this->_deadLetterMessageCount;
+    }
+
+    /**
+     * Gets the count of the scheduled messages.
+     *
+     * @return int
+     */
+    public function getScheduledMessageCount()
+    {
+        return $this->_scheduledMessageCount;
+    }
+
+    /**
+     * Gets the count of the transfer messages.
+     *
+     * @return int
+     */
+    public function getTransferMessageCount()
+    {
+        return $this->_transferMessageCount;
+    }
+
+    /**
+     * Gets the count of the transfer dead letter messages.
+     *
+     * @return int
+     */
+    public function getTransferDeadLetterMessageCount()
+    {
+        return $this->_transferDeadLetterMessageCount;
+    }
+
+    /**
      * Sets the count of the message.
      *
      * @param string $messageCount The count of the message
@@ -351,6 +483,56 @@ class SubscriptionDescription
     public function setMessageCount($messageCount)
     {
         $this->_messageCount = $messageCount;
+    }
+
+    /**
+     * Sets the count of the active messages.
+     *
+     * @param string $activeMessageCount
+     */
+    public function setActiveMessageCount($activeMessageCount)
+    {
+        $this->_activeMessageCount = $activeMessageCount;
+    }
+
+    /**
+     * Sets the count of the dead letter messages.
+     *
+     * @param string $deadLetterMessageCount
+     */
+    public function setDeadLetterMessageCount($deadLetterMessageCount)
+    {
+        $this->_deadLetterMessageCount = $deadLetterMessageCount;
+    }
+
+    /**
+     * Sets the count of the scheduled messages.
+     *
+     * @param string $scheduledMessageCount
+     */
+    public function setScheduledMessageCount($scheduledMessageCount)
+    {
+        $this->_scheduledMessageCount = $scheduledMessageCount;
+    }
+
+    /**
+     * Sets the count of the TransferMessageCount messages.
+     *
+     * @param string $transferMessageCount
+     */
+    public function setTransferMessageCount($transferMessageCount)
+    {
+        $this->_transferMessageCount = $transferMessageCount;
+    }
+
+    /**
+     * Sets the count of the TransferDeadLetterMessageCount messages.
+     *
+     * @param string $transferDeadLetterMessageCount
+     */
+    public function setTransferDeadLetterMessageCount($transferDeadLetterMessageCount)
+    {
+        $this->_transferDeadLetterMessageCount = $transferDeadLetterMessageCount;
     }
 
     /**
