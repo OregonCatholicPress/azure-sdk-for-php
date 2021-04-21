@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
 /**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +77,7 @@ class BatchRequestTest extends TestCase
         $resultHeader = $batchReq->getHeaders();
 
         // Assert
-        $this->assertContains($body, $resultBody);
+        $this->assertStringContainsString($body, $resultBody);
     }
 
     /**
@@ -90,7 +101,7 @@ class BatchRequestTest extends TestCase
 
         // Assert
         $this->assertEquals(1, count($resultHeader));
-        $this->assertContains('multipart/mixed', $resultHeader['Content-Type']);
+        $this->assertStringContainsString('multipart/mixed', $resultHeader['Content-Type']);
     }
 
     /**

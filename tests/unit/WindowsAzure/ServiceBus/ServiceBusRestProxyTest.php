@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +38,6 @@ namespace Tests\unit\WindowsAzure\ServiceBus;
 use Tests\framework\ServiceBusRestProxyTestBase;
 use WindowsAzure\Common\ServiceException;
 use WindowsAzure\Common\Internal\Resources;
-
 use WindowsAzure\ServiceBus\Models\BrokeredMessage;
 use WindowsAzure\ServiceBus\Models\ListQueuesOptions;
 use WindowsAzure\ServiceBus\Models\ListRulesOptions;
@@ -99,7 +108,7 @@ class ServiceBusRestProxyTest extends ServiceBusRestProxyTestBase
     {
         // Setup
         $queueName = 'IDoNotExist';
-        $this->setExpectedException(get_class(
+        $this->expectException(get_class(
             new ServiceException(''))
         );
 
@@ -140,7 +149,6 @@ class ServiceBusRestProxyTest extends ServiceBusRestProxyTestBase
 
     /**
      * @covers \WindowsAzure\ServiceBus\ServiceBusRestProxy::listQueues
-     * @covers \MicrosoftAzure\Storage\Queue\Models\ListQueuesResult::parseXml
      * @covers \WindowsAzure\ServiceBus\Models\QueueDescription::create
      */
     public function testListQueueSuccess()
@@ -268,10 +276,10 @@ class ServiceBusRestProxyTest extends ServiceBusRestProxyTestBase
         $queueDescription = new QueueDescription();
         $queueName = 'testDeleteMessageInvalidMessage';
         $queueInfo = new QueueInfo($queueName, $queueDescription);
-        $this->safeDeleteQueue($queueInfo);
+        $this->safeDeleteQueue($queueName);
         $this->createQueue($queueInfo);
         $brokeredMessage = new BrokeredMessage();
-        $this->setExpectedException(get_class(new \InvalidArgumentException()));
+        $this->expectException(get_class(new \InvalidArgumentException()));
 
         // Test
         $this->serviceBusWrapper->deleteMessage($brokeredMessage);
@@ -290,7 +298,7 @@ class ServiceBusRestProxyTest extends ServiceBusRestProxyTestBase
         $queueName = 'testDeleteMessageSuccess';
         $expectedMessage = 'testDeleteMessageSuccess';
         $queueInfo = new QueueInfo($queueName, $queueDescription);
-        $this->safeDeleteQueue($queueInfo);
+        $this->safeDeleteQueue($queueName);
         $this->createQueue($queueInfo);
         $brokeredMessage = new BrokeredMessage();
         $brokeredMessage->setBody($expectedMessage);

@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
 /**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +58,6 @@ class TaskTemplateTest extends TestCase
      */
     public function test__construct()
     {
-
         // Setup
         $numberOfInputAssets = 3;
         $numberOfOutputAssets = 4;
@@ -58,7 +68,7 @@ class TaskTemplateTest extends TestCase
         // Assert
         $this->assertEquals($numberOfInputAssets, $taskTemplate->getNumberofInputAssets());
         $this->assertEquals($numberOfOutputAssets, $taskTemplate->getNumberofOutputAssets());
-        $this->assertContains('nb:ttid:UUID:', $taskTemplate->getId());
+        $this->assertStringContainsString('nb:ttid:UUID:', $taskTemplate->getId());
     }
 
     /**

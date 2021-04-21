@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -331,6 +341,60 @@ class SubscriptionInfo extends Entry
     public function getMessageCount()
     {
         return $this->_subscriptionDescription->getMessageCount();
+    }
+
+    /**
+     * Gets the count of the active messages.
+     *
+     * @return int
+     */
+    public function getActiveMessageCount()
+    {
+        return $this->_subscriptionDescription->getActiveMessageCount();
+    }
+
+    /**
+     * Gets the count of the dead letter messages.
+     *
+     * @return int
+     */
+    public function getDeadLetterMessageCount()
+    {
+        return $this->_subscriptionDescription->getDeadLetterMessageCount();
+    }
+
+    /**
+     * Gets the count of the scheduled messages.
+     *
+     * Note: This functionality is currently bugged in Azure and returns 0 for subscriptions and nothing for topics.
+     *       If you want this data, please use the CLI as follows:
+     * > az servicebus topic show --resource-group {resourceGroup} --namespace-name {namespace} --name {name} --query countDetails
+     *
+     * @return int
+     */
+    public function getScheduledMessageCount()
+    {
+        return $this->_subscriptionDescription->getScheduledMessageCount();
+    }
+
+    /**
+     * Gets the count of the transfer messages.
+     *
+     * @return int
+     */
+    public function getTransferMessageCount()
+    {
+        return $this->_subscriptionDescription->getTransferMessageCount();
+    }
+
+    /**
+     * Gets the count of the transfer dead letter messages.
+     *
+     * @return int
+     */
+    public function getTransferDeadLetterMessageCount()
+    {
+        return $this->_subscriptionDescription->getTransferDeadLetterMessageCount();
     }
 
     /**

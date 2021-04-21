@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,7 +40,6 @@ use WindowsAzure\Common\Internal\MediaServicesSettings;
 use WindowsAzure\MediaServices\Authentication\AzureAdTokenCredentials;
 use WindowsAzure\MediaServices\Authentication\AzureAdClientSymmetricKey;
 use WindowsAzure\MediaServices\Authentication\AzureAdTokenProvider;
-use WindowsAzure\MediaServices\Authentication\AzureEnvironments;
 use WindowsAzure\MediaServices\MediaServicesRestProxy;
 use WindowsAzure\MediaServices\Models\Asset;
 use WindowsAzure\MediaServices\Models\AccessPolicy;
@@ -85,7 +94,7 @@ class MediaServicesRestProxyTestBase extends ServiceRestProxyTestBase
 
     const LARGE_FILE_SIZE_MB = 7;
 
-    public function setUp()
+    public function setup(): void
     {
         $this->skipIfEmulated();
         parent::setUp();
@@ -308,7 +317,7 @@ class MediaServicesRestProxyTestBase extends ServiceRestProxyTestBase
         return $jobTempl;
     }
 
-    protected function tearDown()
+    protected function teardown(): void
     {
         parent::tearDown();
 

@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,14 +35,16 @@
 
 namespace WindowsAzure\Common;
 
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Blob\Internal\IBlob;
 use MicrosoftAzure\Storage\Queue\Internal\IQueue;
+use MicrosoftAzure\Storage\Queue\QueueRestProxy;
 use MicrosoftAzure\Storage\Table\Internal\AtomReaderWriter;
 use MicrosoftAzure\Storage\Table\Internal\IAtomReaderWriter;
 use MicrosoftAzure\Storage\Table\Internal\IMimeReaderWriter;
 use MicrosoftAzure\Storage\Table\Internal\ITable;
 use MicrosoftAzure\Storage\Table\Internal\MimeReaderWriter;
-use MicrosoftAzure\Storage\Common\ServicesBuilder as StorageServiceBuilder;
+use MicrosoftAzure\Storage\Table\TableRestProxy;
 use WindowsAzure\Common\Internal\Authentication\StorageAuthScheme;
 use WindowsAzure\Common\Internal\Http\IHttpClient;
 use WindowsAzure\Common\Internal\MediaServicesSettings;
@@ -42,22 +54,16 @@ use WindowsAzure\Common\Internal\Utilities;
 use WindowsAzure\Common\Internal\Http\HttpClient;
 use WindowsAzure\Common\Internal\Filters\HeadersFilter;
 use WindowsAzure\Common\Internal\Filters\AuthenticationFilter;
-use WindowsAzure\Common\Internal\Filters\WrapFilter;
 use WindowsAzure\Common\Internal\Serialization\XmlSerializer;
 use WindowsAzure\Common\Internal\Authentication\SharedKeyAuthScheme;
 use WindowsAzure\Common\Internal\Authentication\TableSharedKeyLiteAuthScheme;
 use WindowsAzure\Common\Internal\ServiceManagementSettings;
 use WindowsAzure\Common\Internal\ServiceBusSettings;
 use WindowsAzure\ServiceBus\Internal\IServiceBus;
-use WindowsAzure\ServiceBus\Internal\IWrap;
 use WindowsAzure\ServiceBus\ServiceBusRestProxy;
-use WindowsAzure\ServiceBus\Internal\WrapRestProxy;
 use WindowsAzure\ServiceManagement\Internal\IServiceManagement;
 use WindowsAzure\ServiceManagement\ServiceManagementRestProxy;
 use WindowsAzure\MediaServices\MediaServicesRestProxy;
-use WindowsAzure\MediaServices\Authentication\AzureAdClient;
-use WindowsAzure\Common\Internal\OAuthRestProxy;
-use WindowsAzure\Common\Internal\Authentication\OAuthScheme;
 
 /**
  * Builds azure service objects.
@@ -159,21 +165,6 @@ class ServicesBuilder
     }
 
     /**
-     * Builds a WRAP client.
-     *
-     * @param string $wrapEndpointUri The WRAP endpoint uri
-     *
-     * @return IWrap
-     */
-    protected function createWrapService($wrapEndpointUri)
-    {
-        $httpClient = $this->httpClient();
-        $wrapWrapper = new WrapRestProxy($httpClient, $wrapEndpointUri);
-
-        return $wrapWrapper;
-    }
-
-    /**
      * Builds a queue object.
      *
      * @param string $connectionString The configuration connection string
@@ -182,7 +173,7 @@ class ServicesBuilder
      */
     public function createQueueService($connectionString)
     {
-        return StorageServiceBuilder::getInstance()->createQueueService($connectionString);
+        return QueueRestProxy::createQueueService($connectionString);
     }
 
     /**
@@ -194,7 +185,7 @@ class ServicesBuilder
      */
     public function createBlobService($connectionString)
     {
-        return StorageServiceBuilder::getInstance()->createBlobService($connectionString);
+        return BlobRestProxy::createBlobService($connectionString);
     }
 
     /**
@@ -206,7 +197,7 @@ class ServicesBuilder
      */
     public function createTableService($connectionString)
     {
-        return StorageServiceBuilder::getInstance()->createTableService($connectionString);
+        return TableRestProxy::createTableService($connectionString);
     }
 
     /**

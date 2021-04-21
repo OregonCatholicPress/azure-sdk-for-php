@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -240,6 +250,111 @@ class SubscriptionDescriptionTest extends TestCase
         $actual = $subscriptionDescription->getEnableBatchedOperations();
 
         // Assert 
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    /**
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::getActiveMessageCount
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::setActiveMessageCount
+     */
+    public function testGetSetActiveMessageCount()
+    {
+        // Setup
+        $expected = 10;
+        $subscriptionDescription = new SubscriptionDescription();
+
+        // Test
+        $subscriptionDescription->setActiveMessageCount($expected);
+        $actual = $subscriptionDescription->getActiveMessageCount();
+
+        // Assert
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    /**
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::getDeadLetterMessageCount
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::setDeadLetterMessageCount
+     */
+    public function testGetSetDeadLetterMessageCount()
+    {
+        // Setup
+        $expected = 84;
+        $subscriptionDescription = new SubscriptionDescription();
+
+        // Test
+        $subscriptionDescription->setDeadLetterMessageCount($expected);
+        $actual = $subscriptionDescription->getDeadLetterMessageCount();
+
+        // Assert
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    /**
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::getScheduledMessageCount
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::setScheduledMessageCount
+     */
+    public function testGetSetScheduledMessageCount()
+    {
+        // Setup
+        $expected = 33;
+        $subscriptionDescription = new SubscriptionDescription();
+
+        // Test
+        $subscriptionDescription->setScheduledMessageCount($expected);
+        $actual = $subscriptionDescription->getScheduledMessageCount();
+
+        // Assert
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    /**
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::getTransferMessageCount
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::setTransferMessageCount
+     */
+    public function testGetSetTransferMessageCount()
+    {
+        // Setup
+        $expected = 42;
+        $subscriptionDescription = new SubscriptionDescription();
+
+        // Test
+        $subscriptionDescription->setTransferMessageCount($expected);
+        $actual = $subscriptionDescription->getTransferMessageCount();
+
+        // Assert
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    /**
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::getTransferDeadLetterMessageCount
+     * @covers \WindowsAzure\ServiceBus\Models\SubscriptionDescription::setTransferDeadLetterMessageCount
+     */
+    public function testGetSetTransferDeadLetterMessageCount()
+    {
+        // Setup
+        $expected = 22;
+        $subscriptionDescription = new SubscriptionDescription();
+
+        // Test
+        $subscriptionDescription->setTransferDeadLetterMessageCount($expected);
+        $actual = $subscriptionDescription->getTransferDeadLetterMessageCount();
+
+        // Assert
         $this->assertEquals(
             $expected,
             $actual

@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,8 +34,8 @@
  */
 
 namespace Tests\framework;
-use MicrosoftAzure\Storage\Table\Internal\ITable;
 
+use MicrosoftAzure\Storage\Table\Internal\ITable;
 
 /**
  * TestBase class for each unit test class.
@@ -48,7 +58,7 @@ class TableServiceRestProxyTestBase extends ServiceRestProxyTestBase
      */
     protected $tableRestProxy;
 
-    public function setUp()
+    public function setup(): void
     {
         parent::setUp();
         $this->tableRestProxy = $this->builder->createTableService($this->connectionString);
@@ -77,7 +87,7 @@ class TableServiceRestProxyTestBase extends ServiceRestProxyTestBase
         }
     }
 
-    protected function tearDown()
+    protected function teardown(): void
     {
         parent::tearDown();
 

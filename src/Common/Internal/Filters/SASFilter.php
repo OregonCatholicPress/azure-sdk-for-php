@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,8 +39,6 @@ use WindowsAzure\Common\Internal\Resources;
 use WindowsAzure\Common\Internal\Utilities;
 use WindowsAzure\Common\Internal\IServiceFilter;
 use WindowsAzure\Common\Internal\Http\IHttpClient;
-use WindowsAzure\ServiceBus\Internal\WrapTokenManager;
-use WindowsAzure\ServiceBus\Internal\IWrap;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -46,11 +54,13 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @link      https://github.com/windowsazure/azure-sdk-for-php
  */
-class SASFilter implements IServiceFilter {
-
-	private $sharedAccessKeyName;
-
-	private $sharedAccessKey;
+class SASFilter implements IServiceFilter
+{
+    /**
+     * @var string
+     */
+    private $sharedAccessKeyName;
+    private $sharedAccessKey;
 
     public function __construct(
         $sharedAccessKeyName,
@@ -69,10 +79,10 @@ class SASFilter implements IServiceFilter {
      */
     public function handleRequest(IHttpClient $request) {
         $token = $this->getAuthorization(
-        	$request->getUrl(),
-        	$this->sharedAccessKeyName,
-        	$this->sharedAccessKey
-    	);
+            $request->getUrl(),
+            $this->sharedAccessKeyName,
+            $this->sharedAccessKey
+        );
 
         $request->setHeader(Resources::AUTHENTICATION, $token);
 
@@ -80,9 +90,11 @@ class SASFilter implements IServiceFilter {
     }
 
     /**
-     * @param $url
-     * @param $policy
-     * @param $key
+     * @param string $url
+     * @param string $sharedAccessKeyName
+     * @param string $sharedAccessKey
+     *
+     * @return string
      */
     private function getAuthorization($url, $sharedAccessKeyName, $sharedAccessKey) {
         $expiry = time() + 3600;
@@ -90,13 +102,12 @@ class SASFilter implements IServiceFilter {
         $scope = $encodedUrl . "\n" . $expiry;
         $signature = base64_encode(hash_hmac('sha256', $scope, $sharedAccessKey, true));
         return sprintf(Resources::SAS_AUTHORIZATION,
-        	Utilities::lowerUrlencode($signature),
-        	$expiry,
-        	$sharedAccessKeyName,
-        	$encodedUrl
+            Utilities::lowerUrlencode($signature),
+            $expiry,
+            $sharedAccessKeyName,
+            $encodedUrl
         );
     }
-
 
     /**
      * Returns the original response.

@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -69,7 +79,7 @@ class UrlTest extends TestCase
     {
         // Setup
         $urlString = '';
-        $this->setExpectedException(get_class(new \InvalidArgumentException(Resources::INVALID_URL_MSG)));
+        $this->expectException(get_class(new \InvalidArgumentException(Resources::INVALID_URL_MSG)));
 
         // Test
         new Url($urlString);
@@ -82,7 +92,7 @@ class UrlTest extends TestCase
     {
         // Setup
         $urlString = 1;
-        $this->setExpectedException(get_class(new \InvalidArgumentException(Resources::INVALID_URL_MSG)));
+        $this->expectException(get_class(new \InvalidArgumentException(Resources::INVALID_URL_MSG)));
 
         // Test
         new Url($urlString);
@@ -95,7 +105,7 @@ class UrlTest extends TestCase
     {
         // Setup
         $urlString = 'ww.invalidurl,com';
-        $this->setExpectedException(get_class(new \InvalidArgumentException(Resources::INVALID_URL_MSG)));
+        $this->expectException(get_class(new \InvalidArgumentException(Resources::INVALID_URL_MSG)));
 
         // Test
         new Url($urlString);
@@ -176,7 +186,7 @@ class UrlTest extends TestCase
         $invalidKey = new \DateTime();
         $value = 'ValidValue';
         $url = new Url($urlString);
-        $this->setExpectedException(get_class(new InvalidArgumentTypeException(gettype(''))));
+        $this->expectException(get_class(new InvalidArgumentTypeException(gettype(''))));
 
         // Test
         $url->setQueryVariable($invalidKey, $value);
@@ -192,7 +202,7 @@ class UrlTest extends TestCase
         $invalidKey = new \DateTime();
         $value = 'ValidValue';
         $url = new Url($urlString);
-        $this->setExpectedException(get_class(new \InvalidArgumentException(Resources::NULL_OR_EMPTY_MSG)));
+        $this->expectException(get_class(new \InvalidArgumentException(Resources::NULL_OR_EMPTY_MSG)));
 
         // Test
         $url->setQueryVariable($invalidKey, $value);
@@ -208,7 +218,7 @@ class UrlTest extends TestCase
         $key = 'ValidKey';
         $invalidValue = new \DateTime();
         $url = new Url($urlString);
-        $this->setExpectedException(get_class(new InvalidArgumentTypeException(gettype(''))));
+        $this->expectException(get_class(new InvalidArgumentTypeException(gettype(''))));
 
         // Test
         $url->setQueryVariable($key, $invalidValue);

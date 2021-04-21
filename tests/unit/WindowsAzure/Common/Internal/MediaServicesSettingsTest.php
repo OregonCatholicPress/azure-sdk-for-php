@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * PHP version 7.4
+ *
+ * @author    Michael Bunker <michaelb@ocp.org>
+ * @copyright Oregon Catholic Press 2021
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link      https://github.com/oregoncatholicpress/azure-sdk-for-php
+ * @version   1.0.0
+ */
+
+/**
  * LICENSE: Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,8 +36,6 @@
 namespace Tests\unit\WindowsAzure\Common\Internal;
 
 use WindowsAzure\Common\Internal\MediaServicesSettings;
-use WindowsAzure\Common\Internal\Resources;
-use WindowsAzure\MediaServices\Authentication\ITokenProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -52,7 +60,7 @@ class MediaServicesSettingsTest extends TestCase
     {
         // Setup
         $endpointUri = 'http://valid.url/';
-        $tokenProvider = $this->getMock('\WindowsAzure\MediaServices\Authentication\ITokenProvider');
+        $tokenProvider = $this->getMockBuilder('\WindowsAzure\MediaServices\Authentication\ITokenProvider')->getMock();
 
         // Test
         $settings = new MediaServicesSettings($endpointUri, $tokenProvider);
@@ -72,10 +80,10 @@ class MediaServicesSettingsTest extends TestCase
         $tokenProvider = null;
 
         // Assert
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         // Test
-        $settings = new MediaServicesSettings($endpointUri, $tokenProvider);
+        new MediaServicesSettings($endpointUri, $tokenProvider);
     }
 
     /**
@@ -88,9 +96,9 @@ class MediaServicesSettingsTest extends TestCase
         $tokenProvider = null;
 
         // Assert
-        $this->setExpectedException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         // Test
-        $settings = new MediaServicesSettings($endpointUri, $tokenProvider);
+        new MediaServicesSettings($endpointUri, $tokenProvider);
     }
 }
