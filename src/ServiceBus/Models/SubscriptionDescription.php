@@ -112,8 +112,13 @@ class SubscriptionDescription
      * @var int
      */
     private $_deadLetterMessageCount;
+
     /**
      * The count of the scheduled messages.
+     *
+     * Note: This functionality is currently bugged in Azure and returns 0 for subscriptions and nothing for topics.
+     *       If you want this data, please use the CLI as follows:
+     * > az servicebus topic show --resource-group {resourceGroup} --namespace-name {namespace} --name {name} --query countDetails
      *
      * @var int
      */
@@ -448,6 +453,9 @@ class SubscriptionDescription
     /**
      * Gets the count of the scheduled messages.
      *
+     * Note: This functionality is currently bugged in Azure and returns 0 for subscriptions and nothing for topics.
+     *       If you want this data, please use the CLI as follows:
+     * > az servicebus topic show --resource-group {resourceGroup} --namespace-name {namespace} --name {name} --query countDetails
      * @return int
      */
     public function getScheduledMessageCount()
